@@ -49,9 +49,9 @@ jobs:
         run: |
           python make-printable.py < pares.md > pares-print.md
 
-      - name: Export HTML with presenterm
+      - name: Export HTML with presenterm (pty wrapper)
         run: |
-          uv run --with weasyprint presenterm --export-html pares-print.md
+          script -q -e -c "uv run --with weasyprint presenterm --export-html pares-print.md" /dev/null          
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
