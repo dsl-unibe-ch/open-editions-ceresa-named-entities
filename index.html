@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pares – fullscreen scaling</title>
+
+  <style>
+    /* --------------------------------------------------------------
+       Full‑screen wrapper – give it the same background as the slides.
+       Adjust the colour if your slides use something else.
+       -------------------------------------------------------------- */
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #fff;          /* <- match slide background (change if needed) */
+    }
+
+    /* The iframe holds the original presentation.
+       Its *native* size must match the slide size exported by presenterm. */
+    #presentation {
+      border: none;
+      width: 726px;      /* ← slide width  (px) */
+      height: 480px;     /* ← slide height (px) */
+      transform-origin: top left;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <iframe id="presentation" src="pares-print.html" allowfullscreen></iframe>
+
+  <script>
+    // --------------------------------------------------------------
+    // Configuration – change only if your presentation uses a different size.
+    const SLIDE_WIDTH  = 726;   // original width of pares.html (px)
+    const SLIDE_HEIGHT = 480;   // original height of pares.html (px)
+    // --------------------------------------------------------------
+
+    const iframe = document.getElementById('presentation');
+
+    function resizePresentation() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // Uniform scale that fits both dimensions
+      const scale = Math.min(vw / SLIDE_WIDTH, vh / SLIDE_HEIGHT);
+
+      // Apply the scaling
+      iframe.style.transform = `scale(${scale})`;
+
+      // Center the slide (so empty space is split left/right & top/bottom)
+      const extraX = (vw - SLIDE_WIDTH * scale) / 2;
+      const extraY = (vh - SLIDE_HEIGHT * scale) / 2;
+      iframe.style.left = `${extraX}px`;
+      iframe.style.top  = `${extraY}px`;
+    }
+
+    // Initial sizing
+    resizePresentation();
+
+    // Keep it responsive
+    window.addEventListener('resize', resizePresentation);
+  </script>
+</body>
+</html>
