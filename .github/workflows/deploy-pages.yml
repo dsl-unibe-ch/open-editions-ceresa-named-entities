@@ -1,4 +1,4 @@
-name: Build & Deploy Presenterm deck
+name: Deploy static Presenterm output
 
 on:
   push:
@@ -15,46 +15,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install Rust toolchain (for presenterm)
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Install system deps for WeasyPrint
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libpango-1.0-0 libcairo2 libgdk-pixbuf2.0-0 libffi-dev \
-            shared-mime-info fonts-dejavu-core
-
-      - name: Install Python tools (uv, weasyprint)
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install uv weasyprint
-
-      - name: Install presenterm (Rust CLI)
-        run: |
-          cargo install presenterm
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-
-      - name: Generate printable markdown
-        run: |
-          python make-printable.py < pares.md > pares-print.md
-
-      - name: Inspect pares-print.md
-        run: cat pares-print.md
-
-      - name: Export HTML with presenterm (pty wrapper)
-        run: |
-          script -q -e -c "uv run --with weasyprint presenterm --export-html pares-print.md" /dev/null
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -62,15 +26,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .   # includes index.html, pares-print.html, img/, etc.
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

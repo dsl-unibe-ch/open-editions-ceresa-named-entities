@@ -12,6 +12,11 @@ Note: screenshots/illustrations are not shown in the Asciinema recording.
 
 To run the demo, make sure to create `demo/step1/.env`.
 
+For deployment of the static page:
+* `python make-printable.py < pares.md > pares-print.md` (this replaces executable bits by URLs)
+* `presenterm --export-html pares-print.md` or `uv run --with weasyprint presenterm --export-pdf pares-print.md`
+* then commit and push (key files/directories: `index.html`, `pares-print.html`, `img/`
+
 ## Credits
 - @tav-r (code step 1)
 - github.com/mfontanini/presenterm
