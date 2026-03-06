@@ -49,6 +49,9 @@ jobs:
         run: |
           python make-printable.py < pares.md > pares-print.md
 
+      - name: Inspect pares-print.md
+        run: cat pares-print.md
+
       - name: Export HTML with presenterm
         run: |
           uv run --with weasyprint presenterm --export-html pares-print.md
