@@ -1,0 +1,26 @@
+{
+    "creators": [
+        {
+            "name": "Dängeli, Peter",
+            "orcid": "0000-0003-3576-7474",
+            "affiliation": "Data Science Lab, University of Bern",
+            "type": "ProjectMember"
+        },
+        {
+            "name": "Bürki, Levyn",
+            "orcid": "0009-0009-7602-0714",
+            "affiliation": "Data Science Lab, University of Bern",
+            "type": "ProjectMember"
+        }      
+    ],
+    "title": "Entities and experiments. Corpus exploration, proto indexing and enrichment workflows",
+    "access_right": "open",
+    "keywords": [
+        "digital humanities",
+        "digital scholarly edition",
+        "open editions"
+    ],
+    "license": "mit",
+    "upload_type": "software",
+    "language": "eng"
+}
